@@ -1,0 +1,155 @@
+---
+swagger: "2.0"
+info:
+  title: "PartnerAccountService"
+  description: ""
+  x-ibm-name: "partneraccountservice"
+  version: "1.0.0"
+schemes:
+- "https"
+basePath: "/PartnerAccountService"
+consumes:
+- "text/xml"
+produces:
+- "application/xml"
+securityDefinitions:
+  clientID:
+    type: "apiKey"
+    name: "X-IBM-Client-Id"
+    in: "header"
+    description: ""
+security:
+- clientID: []
+x-ibm-configuration:
+  type: "wsdl"
+  wsdl-definition:
+    wsdl: "VakifBankInquiry.zip"
+    service: "PartnerAccountService"
+    port: "PartnerAccountPort"
+    soap-version: "1.1"
+  assembly:
+    execute:
+    - proxy:
+        title: "proxy"
+        target-url: "http://mailserver.dev:9080/CBAAccountServices/PartnerAccountService"
+        verb: "POST"
+  gateway: "datapower-gateway"
+  enforced: true
+  testable: true
+  phase: "realized"
+  cors:
+    enabled: true
+paths:
+  /creditPosting:
+    post:
+      summary: "Operation creditPosting"
+      description: ""
+      operationId: "creditPosting"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/creditPostingInput"
+      responses:
+        default:
+          description: ""
+          schema:
+            $ref: "#/definitions/creditPostingOutput"
+      x-ibm-soap:
+        soap-action: "creditPosting"
+        soap-operation: "{http://cba.ibm.com/}creditPosting"
+definitions:
+  wsSecurityHeader:
+    xml:
+      namespace: "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+    type: "object"
+    properties:
+      UsernameToken:
+        type: "object"
+        properties:
+          Username:
+            type: "string"
+          Password:
+            type: "string"
+  creditPostingHeader:
+    type: "object"
+    properties:
+      wsSecurityHeader:
+        $ref: "#/definitions/wsSecurityHeader"
+  creditPosting:
+    xml:
+      namespace: "http://cba.ibm.com/"
+      prefix: "cba"
+    type: "object"
+    properties:
+      arg0:
+        xml:
+          namespace: ""
+        type: "string"
+      arg1:
+        xml:
+          namespace: ""
+        type: "string"
+      arg2:
+        xml:
+          namespace: ""
+        type: "string"
+      arg3:
+        xml:
+          namespace: ""
+        type: "number"
+        format: "float"
+    example: "<cba:creditPosting xmlns:cba=\"http://cba.ibm.com/\">\n  <!--Optional:-->\n\
+      \  <arg0>string</arg0>\n  <!--Optional:-->\n  <arg1>string</arg1>\n  <!--Optional:-->\n\
+      \  <arg2>string</arg2>\n  <arg3>3</arg3>\n</cba:creditPosting>"
+  creditPostingInput:
+    type: "object"
+    properties:
+      Envelope:
+        xml:
+          prefix: "soap-env"
+          namespace: "http://schemas.xmlsoap.org/soap/envelope/"
+        type: "object"
+        properties:
+          Header:
+            type: "object"
+            properties:
+              creditPostingHeader:
+                $ref: "#/definitions/creditPostingHeader"
+          Body:
+            type: "object"
+            properties:
+              creditPosting:
+                $ref: "#/definitions/creditPosting"
+    example: "<soap-env:Envelope xmlns:soap-env=\"http://schemas.xmlsoap.org/soap/envelope/\"\
+      >\n   <soap-env:Header/>\n   <soap-env:Body>\n      <cba:creditPosting xmlns:cba=\"\
+      http://cba.ibm.com/\">\n  <!--Optional:-->\n  <arg0>string</arg0>\n  <!--Optional:-->\n\
+      \  <arg1>string</arg1>\n  <!--Optional:-->\n  <arg2>string</arg2>\n  <arg3>3</arg3>\n\
+      </cba:creditPosting>\n   </soap-env:Body>\n\n\n\n\n</soap-env:Envelope>"
+  creditPostingResponse:
+    xml:
+      namespace: "http://cba.ibm.com/"
+      prefix: "cba"
+    type: "object"
+    properties:
+      return:
+        xml:
+          namespace: ""
+        type: "string"
+    example: "<cba:creditPostingResponse xmlns:cba=\"http://cba.ibm.com/\">\n  <!--Optional:-->\n\
+      \  <return>string</return>\n</cba:creditPostingResponse>"
+  creditPostingOutput:
+    type: "object"
+    properties:
+      Envelope:
+        xml:
+          prefix: "soap-env"
+          namespace: "http://schemas.xmlsoap.org/soap/envelope/"
+        type: "object"
+        properties:
+          Body:
+            type: "object"
+            properties:
+              creditPostingResponse:
+                $ref: "#/definitions/creditPostingResponse"

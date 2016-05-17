@@ -1,0 +1,28 @@
+---
+product: "1.0.0"
+info:
+  title: "Partner Credit Posting"
+  name: "partner-credit-posting"
+  version: "1.0.0"
+visibility:
+  view:
+    enabled: true
+    type: "public"
+    tags: []
+    orgs: []
+  subscribe:
+    enabled: true
+    type: "authenticated"
+    tags: []
+    orgs: []
+apis:
+  partneraccountservice:
+    id: "573b10abe4b0c7fa18a66ff2"
+plans:
+  default:
+    title: "Default Plan"
+    description: "Default Plan"
+    approval: false
+    rate-limit:
+      hard-limit: false
+      value: "100/hour"
